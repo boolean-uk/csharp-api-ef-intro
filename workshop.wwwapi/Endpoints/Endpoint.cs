@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Security.Cryptography.Xml;
+using workshop.wwwapi.Models;
+using workshop.wwwapi.Models.GenericDto;
 using workshop.wwwapi.Repository;
 
 namespace workshop.wwwapi.Endpoints
@@ -27,10 +30,38 @@ namespace workshop.wwwapi.Endpoints
         [ProducesResponseType(StatusCodes.Status200OK)]
         public static async Task<IResult> GetBandMembers(IRepository repository)
         {
+            //source data
+            var entities = await repository.GetMembers(); //lazy load
+     
+            //response data
+            List<BandMemberDto> members = new List<BandMemberDto>();
+            
+            //explicit transfer to build up response
+            foreach (var entity in entities) 
+            {
+                var member = new BandMemberDto() 
+                { 
+                    Name = entity.Name,
+                    Description = entity.Description,
+                    Band= new BandDto() { 
+                        Name= entity.Band.Name, 
+                        Genre=entity.Band.Genre, 
+                        Formed=entity.Band.Formed, 
+                        MeembersCount=entity.Band.MembersCount 
+                    } 
+                };
+                members.Add(member);
+            }
 
-            //var results = await repository.GetMembers();//lazy load (explicit loading 
-            var results = new { data=await repository.GetMembers() };
-            return TypedResults.Ok(results);
+
+            //Consider the Generic Response class called Payload... 
+            //Here I could return the members directly but to keep a consistant response structue I could 
+            //wrap in a the payload class and place results into the data property
+
+            Payload<List<BandMemberDto>> result = new Payload<List<BandMemberDto>>();
+            result.data = members;
+
+            return TypedResults.Ok(result);
         }
 
     }

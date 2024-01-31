@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using workshop.wwwapi.Data;
-using workshop.wwwapi.Models;
+using workshop.wwwapi.Models.DatabaseModels;
 
 namespace workshop.wwwapi.Repository
 {

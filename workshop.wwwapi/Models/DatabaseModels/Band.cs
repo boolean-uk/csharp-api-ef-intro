@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace workshop.wwwapi.Models
+namespace workshop.wwwapi.Models.DatabaseModels
 {
     [Table("bands")]
     public class Band
@@ -17,7 +17,7 @@ namespace workshop.wwwapi.Models
 
 
         [Column("members")]
-        public int MeembersCount { get; set; }
+        public int MembersCount { get; set; }
 
         public IEnumerable<BandMember> Members { get; set; }
 

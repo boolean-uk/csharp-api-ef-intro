@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.Diagnostics;
-using workshop.wwwapi.Models;
+using workshop.wwwapi.Models.DatabaseModels;
 
 namespace workshop.wwwapi.Data
 {
@@ -18,13 +18,15 @@ namespace workshop.wwwapi.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            modelBuilder.Entity<Band>().HasMany(x => x.Members).WithOne(x => x.Band).HasForeignKey(x => x.BandId);
+            
+            //.Navigation(e => e.ColorScheme).AutoInclude();
 
             ////TODO: Seed Data Here
             //Band p = new Band() { Id=1 };
-           
+
             //modelBuilder.Entity<Band>().HasData(p);
-            
+
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
