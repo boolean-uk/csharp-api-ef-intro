@@ -11,8 +11,8 @@ using workshop.wwwapi.Data;
 namespace workshop.wwwapi.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240131075719_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20240131084320_AddedFormedToModel2")]
+    partial class AddedFormedToModel2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,14 +33,23 @@ namespace workshop.wwwapi.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("Formed")
+                        .HasColumnType("integer")
+                        .HasColumnName("formed_year");
+
+                    b.Property<string>("Genre")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("genre");
+
+                    b.Property<int>("MeembersCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("members");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("name");
-
-                    b.Property<int>("NumberOfMembers")
-                        .HasColumnType("integer")
-                        .HasColumnName("number_of_members");
 
                     b.HasKey("Id");
 

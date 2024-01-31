@@ -6,7 +6,8 @@ namespace workshop.wwwapi.Repository
     {
         Task<IEnumerable<Band>> Get();
      
-
+        Task<Band> GetBand(int id);
+        Task<IEnumerable<BandMember>> GetMembers();
 
     }
 }

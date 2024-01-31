@@ -6,23 +6,24 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace workshop.wwwapi.Migrations
 {
     /// <inheritdoc />
-    public partial class FirstMigration : Migration
+    public partial class AddedBandMemberModel3 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "bands",
+                name: "bandmembers",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     name = table.Column<string>(type: "text", nullable: false),
-                    number_of_members = table.Column<int>(type: "integer", nullable: false)
+                    description = table.Column<string>(type: "text", nullable: false),
+                    fk_band_id = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_bands", x => x.id);
+                    table.PrimaryKey("PK_bandmembers", x => x.id);
                 });
         }
 
@@ -30,7 +31,7 @@ namespace workshop.wwwapi.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "bands");
+                name: "bandmembers");
         }
     }
 }

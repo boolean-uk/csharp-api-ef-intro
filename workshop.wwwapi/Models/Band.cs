@@ -9,9 +9,18 @@ namespace workshop.wwwapi.Models
         public int Id { get; set; }
         [Column("name")]
         public string Name { get; set; }
-        [Column("number_of_members")]
-        public int NumberOfMembers { get; set; }
+        [Column("genre")]
+        public string Genre { get; set; }
 
-     
+        [Column("formed_year")]
+        public int Formed { get; set; }
+
+
+        [Column("members")]
+        public int MeembersCount { get; set; }
+
+        public IEnumerable<BandMember> Members { get; set; }
+
+
     }
 }

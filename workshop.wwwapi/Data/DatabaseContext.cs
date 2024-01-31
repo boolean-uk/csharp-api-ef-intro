@@ -35,7 +35,8 @@ namespace workshop.wwwapi.Data
         }
 
 
-        public DbSet<Band> Bands { get; set; }        
-      
+        public DbSet<Band> Bands { get; set; }
+        public DbSet<BandMember> BandMembers { get; set; }
+
     }
 }
