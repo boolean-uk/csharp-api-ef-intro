@@ -10,28 +10,62 @@ namespace workshop.wwwapi.Endpoints
     {
         public static void ConfigureEndpoint(this WebApplication app)
         {
-            var group = app.MapGroup("bands");
+            
 
-            group.MapGet("/", GetBands);
-            group.MapGet("/{id}", GetABand);
-            group.MapGet("/member/", GetBandMembers);
 
+            var groupMembers = app.MapGroup("members");
+            groupMembers.MapGet("/", GetBandMembers);
+            groupMembers.MapPut("/", UpdateBandMember);
+
+            var bandsGroup = app.MapGroup("bands");
+
+            bandsGroup.MapGet("/", GetBands);
+            bandsGroup.MapGet("/{id}", GetABand);
+
+        }
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public static async Task<IResult> UpdateBandMember(IRepository repository, int id, BandMemberPut model)
+        {
+            var entities = await repository.GetAllBands();
+            if (!entities.Any(x => x.Id == id))
+            {
+                return TypedResults.NotFound("Band Member not found.");
+            }
+            var entity = await repository.GetMemberById(id);
+
+            if (model.name != null)
+            {
+                if (entities.Any(x => x.Name == model.name))
+                {
+                    return Results.BadRequest("Product with provided name already exists");
+                }
+            }
+
+            entity.Name = model.name != null ? model.name : entity.Name;
+            entity.Description = model.description != null ? model.description : entity.Description;
+       
+
+            repository.UpdateBandMember(id, entity);
+
+            return TypedResults.Created($"/{entity.Id}", entity);
         }
         [ProducesResponseType(StatusCodes.Status200OK)]
         public static async Task<IResult> GetBands(IRepository repository)
         { 
-            return TypedResults.Ok(await repository.Get());
+            return TypedResults.Ok(await repository.GetAllBands());
         }
         [ProducesResponseType(StatusCodes.Status200OK)]
         public static async Task<IResult> GetABand(IRepository repository, int id)
         {
-            return TypedResults.Ok(await repository.GetBand(id));
+            return TypedResults.Ok(await repository.GetABand(id));
         }
         [ProducesResponseType(StatusCodes.Status200OK)]
         public static async Task<IResult> GetBandMembers(IRepository repository)
         {
             //source data
-            var entities = await repository.GetMembers(); //lazy load
+            var entities = await repository.GetAllBandMembers(); //lazy load
      
             //response data
             List<BandMemberDto> members = new List<BandMemberDto>();

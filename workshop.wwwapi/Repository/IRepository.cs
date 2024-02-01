@@ -4,10 +4,14 @@ namespace workshop.wwwapi.Repository
 {
     public interface IRepository
     {
-        Task<IEnumerable<Band>> Get();
-     
-        Task<Band> GetBand(int id);
-        Task<IEnumerable<BandMember>> GetMembers();
+        //Band Operations 
+        Task<IEnumerable<Band>> GetAllBands();
+        Task<Band> GetABand(int id);
+        Task<BandMember> GetMemberById(int id);
+        
+        //BandMember Operations
+        Task<IEnumerable<BandMember>> GetAllBandMembers();
+        Task<BandMember> UpdateBandMember(int id, BandMember entity);
 
     }
 }

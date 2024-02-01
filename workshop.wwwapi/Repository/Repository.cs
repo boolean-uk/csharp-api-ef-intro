@@ -13,19 +13,34 @@ namespace workshop.wwwapi.Repository
         }
        
 
-        public async Task<IEnumerable<Band>> Get()
+        public async Task<IEnumerable<Band>> GetAllBands()
         {
             return await _databaseContext.Bands.Include(band => band.Members).ToListAsync();
         }
 
-        public async Task<Band> GetBand(int id)
+        public async Task<Band> GetABand(int id)
         {
             return await _databaseContext.Bands.FirstAsync(b => b.Id == id);
         }
 
-        public async Task<IEnumerable<BandMember>> GetMembers()
+        public async Task<BandMember> GetMemberById(int id)
+        {
+            var result = await _databaseContext.BandMembers.FirstOrDefaultAsync(b => b.Id == id);
+            
+            return result;
+        }
+
+        public async Task<IEnumerable<BandMember>> GetAllBandMembers()
         {
             return await _databaseContext.BandMembers.Include(b => b.Band).ToListAsync();
+        }
+
+        public async Task<BandMember> UpdateBandMember(int id, BandMember entity)
+        {
+            throw new NotImplementedException();
+            //var result = _databaseContext.BandMembers.Update(entity);
+            //await _databaseContext.SaveChangesAsync();
+     
         }
     }
 }

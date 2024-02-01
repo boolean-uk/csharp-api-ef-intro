@@ -18,14 +18,11 @@ namespace workshop.wwwapi.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Band>().HasMany(x => x.Members).WithOne(x => x.Band).HasForeignKey(x => x.BandId);
-            
-            //.Navigation(e => e.ColorScheme).AutoInclude();
+           modelBuilder.Entity<Band>().HasMany(x => x.Members).WithOne(x => x.Band).HasForeignKey(x => x.BandId);
+           modelBuilder.Entity<BandMemberInstrument>().HasKey(e => new { e.BandMemberId, e.InstrumentId });
 
-            ////TODO: Seed Data Here
-            //Band p = new Band() { Id=1 };
 
-            //modelBuilder.Entity<Band>().HasData(p);
+
 
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -39,6 +36,7 @@ namespace workshop.wwwapi.Data
 
         public DbSet<Band> Bands { get; set; }
         public DbSet<BandMember> BandMembers { get; set; }
+        public DbSet<Instrument> Instruments { get; set; }
 
     }
 }
