@@ -8,12 +8,13 @@ namespace workshop.wwwapi.Data
     public class DatabaseContext : DbContext
     {
         private string _connectionString;
-
+        private string _miscConnection;
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
             var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
             _connectionString = configuration.GetValue<string>("ConnectionStrings:DefaultConnectionString")!;
+            _miscConnection = configuration.GetValue<string>("ConnectionStrings:MiscConnection");
             //this.Database.EnsureCreated();
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -28,7 +29,8 @@ namespace workshop.wwwapi.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //optionsBuilder.UseInMemoryDatabase(databaseName: "Database");
-            optionsBuilder.UseNpgsql(_connectionString);
+            optionsBuilder.UseNpgsql(_connectionString); 
+            //optionsBuilder.UseNpgsql(_localConnection);
             optionsBuilder.LogTo(message => Debug.WriteLine(message));
             
         }
