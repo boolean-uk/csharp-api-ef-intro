@@ -319,6 +319,14 @@ node_modules/
 **/*.Server/ModelManifest.xml
 _Pvt_Extensions
 
+# Ignore unnecessary files
+/workshop.wwwapi/appsettings.json
+/workshop.wwwapi/appsettings.Development.json
+*/**/bin/Debug
+*/**/bin/Release
+*/**/obj/Debug 
+*/**/obj/Release
+
 # Paket dependency manager
 .paket/paket.exe
 paket-files/
